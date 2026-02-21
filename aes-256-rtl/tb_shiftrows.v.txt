@@ -1,0 +1,58 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 19.11.2025 12:32:54
+// Design Name: 
+// Module Name: tb_shiftrows
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module tb_shiftrows;
+
+    reg [127:0] test_state;
+    wire [127:0] shifted_state;
+
+    ShiftRows uut (
+        .state_in(test_state),
+        .state_out(shifted_state)
+    );
+
+    initial begin
+        $display("========== ShiftRows Test ==========");
+        
+        // Test 1: Known pattern
+        test_state = 128'h00112233445566778899aabbccddeeff;
+        #1;
+        $display("Input:  %h", test_state);
+        $display("Output: %h", shifted_state);
+        $display("Expected: 0055aaff4499ee33881cddb2776cc11");
+        
+        // Test 2: All zeros
+        test_state = 128'h00000000000000000000000000000000;
+        #1;
+        $display("\nInput:  %h", test_state);
+        $display("Output: %h", shifted_state);
+        $display("Expected: all zeros");
+        
+        // Test 3: Sequential bytes
+        test_state = 128'h000102030405060708090a0b0c0d0e0f;
+        #1;
+        $display("\nInput:  %h", test_state);
+        $display("Output: %h", shifted_state);
+        
+        $finish;
+    end
+
+endmodule

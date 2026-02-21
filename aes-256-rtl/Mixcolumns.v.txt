@@ -1,0 +1,80 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 19.11.2025 13:58:45
+// Design Name: 
+// Module Name: Mixcolumns
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module MixColumns (
+    input  [127:0] state_in,
+    output [127:0] state_out
+);
+
+    // Helper functions for Galois Field (GF(2^8)) multiplication
+    
+    // Multiply by 2 in GF(2^8) - constant time
+    function [7:0] gf_mul2;
+        input [7:0] x;
+        begin
+            gf_mul2 = (x[7]) ? ((x << 1) ^ 8'h1b) : (x << 1);
+        end
+    endfunction
+    
+    // Multiply by 3 in GF(2^8) - implemented as (x*2) XOR x
+    function [7:0] gf_mul3;
+        input [7:0] x;
+        begin
+            gf_mul3 = gf_mul2(x) ^ x;
+        end
+    endfunction
+    
+    // MixColumns operation for a single column (32 bits = 4 bytes)
+    function [31:0] mix_column;
+        input [31:0] col;
+        reg [7:0] s0, s1, s2, s3;
+        reg [7:0] r0, r1, r2, r3;
+        begin
+            // Extract bytes from column (big-endian)
+            s0 = col[31:24];
+            s1 = col[23:16];
+            s2 = col[15:8];
+            s3 = col[7:0];
+            
+            // Apply MixColumns matrix multiplication
+            // [02 03 01 01]   [s0]
+            // [01 02 03 01] x [s1]
+            // [01 01 02 03]   [s2]
+            // [03 01 01 02]   [s3]
+            
+            r0 = gf_mul2(s0) ^ gf_mul3(s1) ^ s2 ^ s3;
+            r1 = s0 ^ gf_mul2(s1) ^ gf_mul3(s2) ^ s3;
+            r2 = s0 ^ s1 ^ gf_mul2(s2) ^ gf_mul3(s3);
+            r3 = gf_mul3(s0) ^ s1 ^ s2 ^ gf_mul2(s3);
+            
+            mix_column = {r0, r1, r2, r3};
+        end
+    endfunction
+    
+    // Apply MixColumns to all 4 columns (each is 32 bits)
+    assign state_out[127:96] = mix_column(state_in[127:96]);  // Column 0
+    assign state_out[95:64]  = mix_column(state_in[95:64]);   // Column 1
+    assign state_out[63:32]  = mix_column(state_in[63:32]);   // Column 2
+    assign state_out[31:0]   = mix_column(state_in[31:0]);    // Column 3
+
+endmodule
+

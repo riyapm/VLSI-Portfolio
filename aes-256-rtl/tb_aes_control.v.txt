@@ -1,0 +1,73 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 19.11.2025 14:42:38
+// Design Name: 
+// Module Name: tb_aes_control
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module tb_aes_control;
+
+    reg clk = 0;
+    reg rst = 1;
+    reg start = 0;
+    wire busy, done;
+    wire [3:0] round;
+    wire init_round, enable_subbytes, enable_shiftrows;
+    wire enable_mixcolumns, enable_addroundkey, final_round;
+
+    // Clock generation
+    always #5 clk = ~clk;
+
+    // Instantiate FSM
+    AES_Control_FSM fsm (
+        .clk(clk),
+        .rst(rst),
+        .start(start),
+        .busy(busy),
+        .done(done),
+        .round(round),
+        .init_round(init_round),
+        .enable_subbytes(enable_subbytes),
+        .enable_shiftrows(enable_shiftrows),
+        .enable_mixcolumns(enable_mixcolumns),
+        .enable_addroundkey(enable_addroundkey),
+        .final_round(final_round)
+    );
+
+    initial begin
+        $display("=== AES-256 FSM Test ===");
+        #10 rst = 0;
+        #10 start = 1;
+        #10 start = 0;
+        
+        // Wait for completion
+        wait(done);
+        $display("Encryption complete at round %d", round);
+        #20 $finish;
+    end
+
+    // Monitor state changes
+    always @(posedge clk) begin
+        if (busy)
+            $display("Time=%0t Round=%d SubBytes=%b ShiftRows=%b MixColumns=%b AddRoundKey=%b", 
+                     $time, round, enable_subbytes, enable_shiftrows, 
+                     enable_mixcolumns, enable_addroundkey);
+    end
+
+endmodule
+

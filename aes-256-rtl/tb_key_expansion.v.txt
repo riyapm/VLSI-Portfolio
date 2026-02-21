@@ -1,0 +1,50 @@
+`timescale 1ns/1ps
+
+module tb_key_expansion;
+
+    // Test signals
+    reg [255:0] test_key;
+    wire [1919:0] round_keys;
+    
+    // Instantiate KeyExpansion module
+    KeyExpansion kexp_inst (
+        .key(test_key),
+        .round_keys(round_keys)
+    );
+    
+    initial begin
+        $display("========== AES-256 KEY EXPANSION TESTBENCH ==========\n");
+        
+        // Initialize test_key FIRST
+        test_key = 256'h000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f;
+        
+        // CRITICAL: Wait for KeyExpansion initial block to complete
+        #2;
+        
+        // Now display results
+        $display("TEST 1: NIST Test Vector");
+        $display("Input Key: %h\n", test_key);
+        
+        $display("Generated Round Keys:");
+        $display("Round Key[0]:  %h", round_keys[127:0]);
+        $display("Round Key[1]:  %h", round_keys[255:128]);
+        $display("Round Key[2]:  %h", round_keys[383:256]);
+        $display("Round Key[3]:  %h", round_keys[511:384]);
+        $display("Round Key[4]:  %h", round_keys[639:512]);
+        $display("Round Key[5]:  %h", round_keys[767:640]);
+        $display("Round Key[6]:  %h", round_keys[895:768]);
+        $display("Round Key[7]:  %h", round_keys[1023:896]);
+        $display("Round Key[8]:  %h", round_keys[1151:1024]);
+        $display("Round Key[9]:  %h", round_keys[1279:1152]);
+        $display("Round Key[10]: %h", round_keys[1407:1280]);
+        $display("Round Key[11]: %h", round_keys[1535:1408]);
+        $display("Round Key[12]: %h", round_keys[1663:1536]);
+        $display("Round Key[13]: %h", round_keys[1791:1664]);
+        $display("Round Key[14]: %h", round_keys[1919:1792]);
+        
+        $display("\n========== KEY EXPANSION TEST COMPLETE ==========\n");
+        #10;
+        $finish;
+    end
+
+endmodule

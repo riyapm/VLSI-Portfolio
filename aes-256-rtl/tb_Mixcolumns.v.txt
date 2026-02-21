@@ -1,0 +1,82 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 19.11.2025 13:59:50
+// Design Name: 
+// Module Name: tb_Mixcolumns
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+
+`timescale 1ns/1ps
+
+module tb_Mixcolumns;
+
+    reg [127:0] state_in;
+    wire [127:0] state_out;
+    
+    // Instantiate MixColumns module
+    MixColumns uut (
+        .state_in(state_in),
+        .state_out(state_out)
+    );
+    
+    initial begin
+        $display("========== AES MixColumns Testbench ==========\n");
+        
+        // Test 1: NIST test vector
+        $display("Test 1: NIST Standard Test Vector");
+        state_in = 128'hd4bf5d30e0b452aeb84111f11e27798e;
+        #10;
+        $display("Input:  %h", state_in);
+        $display("Output: %h", state_out);
+        $display("Expected: 046681e5e0cb199a48f8d37a2806264c\n");
+        
+        // Test 2: All zeros
+        $display("Test 2: All Zeros");
+        state_in = 128'h00000000000000000000000000000000;
+        #10;
+        $display("Input:  %h", state_in);
+        $display("Output: %h", state_out);
+        $display("Expected: All zeros (00000000...)\n");
+        
+        // Test 3: Identity-like pattern
+        $display("Test 3: Simple Pattern");
+        state_in = 128'hdb135345f20a225c01010101c6c6c6c6;
+        #10;
+        $display("Input:  %h", state_in);
+        $display("Output: %h", state_out);
+        
+        // Test 4: Known value - each byte different
+        $display("\nTest 4: Sequential Bytes");
+     state_in = 128'h000102030405060708090a0b0c0d0e0f;
+        #10;
+        $display("Input:  %h", state_in);
+        $display("Output: %h", state_out);
+        
+        // Test 5: All 0xFF
+        $display("\nTest 5: All 0xFF");
+        state_in = 128'hffffffffffffffffffffffffffffffff;
+        #10;
+        $display("Input:  %h", state_in);
+        $display("Output: %h", state_out);
+        
+        $display("\n========== Testbench Complete ==========");
+        $finish;
+    end
+
+endmodule
+
