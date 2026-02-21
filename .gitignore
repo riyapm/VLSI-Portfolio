@@ -1,0 +1,31 @@
+# Verilog/SPICE ignores
+*.log
+*.vcd
+*.vpd
+*.wlf
+*.trn
+*.out
+simv*
+*.daidir/
+*.wdb
+*.asc~
+*.net~
+*.raw
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# LTSpice specific
+*.asy
+*.plt
+*.raw~
+*.opj
+
+# IDE temp files
+*~
+*.swp
+*.swo
+
+# OS generated
+Desktop.ini
