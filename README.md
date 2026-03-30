@@ -18,10 +18,10 @@
 | 4 | [8-bit Incrementer Layout](#4-8-bit-incrementer-layout) | Physical Design | Cadence Virtuoso | ✅ Complete |
 | 5 | [6T SRAM Layout](#5-6t-sram-layout) | Physical Design | Cadence Virtuoso | ✅ Complete |
 | 6 | [NOR Gate DRC/LVS](#6-nor-gate-drclvs) | Layout Verification | Cadence Virtuoso | ✅ Complete |
-| 7 | [CMOS Inverter DC Analysis](#7-cmos-inverter-dc-analysis) | Analog Simulation | Ngspice | ✅ Complete |
-| 8 | [CMOS Transient Analysis](#8-cmos-transient-analysis) | Analog Simulation | Ngspice | ✅ Complete |
-| 9 | [CMOS Noise Margin Analysis](#9-cmos-noise-margin-analysis) | Analog Simulation | Ngspice | ✅ Complete |
-| 10 | [CMOS Size Variation Study](#10-cmos-size-variation-study) | Analog Simulation | Ngspice | ✅ Complete |
+| 7 | [CMOS Inverter DC Analysis](#7-cmos-inverter-dc-analysis) | Analog Simulation | Cadence Virtuoso ADE | ✅ Complete |
+| 8 | [CMOS Transient Analysis](#8-cmos-transient-analysis) | Analog Simulation | Cadence Virtuoso ADE | ✅ Complete |
+| 9 | [CMOS Noise Margin Analysis](#9-cmos-noise-margin-analysis) | Analog Simulation | Cadence Virtuoso ADE | ✅ Complete |
+| 10 | [CMOS Size Variation Study](#10-cmos-size-variation-study) | Analog Simulation | Cadence Virtuoso ADE | ✅ Complete |
 
 ---
 
@@ -100,7 +100,7 @@ Custom layout of a CMOS NOR gate with full DRC and LVS verification to validate 
 
 DC analysis of a CMOS inverter to extract the Voltage Transfer Characteristic (VTC) and determine switching threshold, output swing, and gain.
 
-**Tools:** Ngspice  
+**Tools:** Cadence Virtuoso ADE, Spectre  
 **Skills:** SPICE Simulation, DC Analysis, VTC
 
 ---
@@ -110,7 +110,7 @@ DC analysis of a CMOS inverter to extract the Voltage Transfer Characteristic (V
 
 Transient simulation of CMOS logic gates to analyze rise time, fall time, and propagation delay under various load conditions.
 
-**Tools:** Ngspice  
+**Tools:** Cadence Virtuoso ADE, Spectre  
 **Skills:** Transient Simulation, Timing Analysis
 
 ---
@@ -120,7 +120,7 @@ Transient simulation of CMOS logic gates to analyze rise time, fall time, and pr
 
 Analyzed High and Low noise margins (NMH, NML) of CMOS gates to evaluate logic robustness and immunity to noise.
 
-**Tools:** Ngspice  
+**Tools:** Cadence Virtuoso ADE, Spectre  
 **Skills:** Noise Margin Analysis, CMOS Characterization
 
 ---
@@ -130,7 +130,7 @@ Analyzed High and Low noise margins (NMH, NML) of CMOS gates to evaluate logic r
 
 Investigated the effect of MOSFET W/L ratio variations on CMOS inverter characteristics including delay, drive strength, and power consumption.
 
-**Tools:** Ngspice  
+**Tools:** Cadence Virtuoso ADE, Spectre  
 **Skills:** Device Sizing, MOSFET Characterization, Performance Tradeoffs
 
 ---
@@ -141,7 +141,7 @@ Investigated the effect of MOSFET W/L ratio variations on CMOS inverter characte
 |----------|--------|
 | **HDLs** | Verilog, VHDL, SystemVerilog |
 | **Verification** | UVM, Assertion-Based Verification (ABV), Testbench Development |
-| **EDA Tools** | Cadence Virtuoso, ModelSim, Xilinx Vivado, Magic, Ngspice |
+| **EDA Tools** | Cadence Virtuoso, Cadence Spectre, ModelSim, Xilinx Vivado, Magic |
 | **Physical Design** | Full-Custom Layout, DRC/LVS, Static Timing Analysis (STA) |
 | **Languages** | Python, C, C++ |
 | **Hardware** | Zedboard, Arty100, 8085 Interfacing |
